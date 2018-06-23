@@ -1,0 +1,63 @@
+#pragma once
+#include <string>
+#include "Cell.h"
+#include "Renderer.h"
+#include <vector>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include "Barrier.h"
+#include <stdint.h>
+
+class Field {
+
+public:
+
+	Field(const std::string & configurationFile,
+		  const uint32_t width,
+		  const uint32_t height,
+		  const uint32_t threadCount);
+
+	~Field();
+
+	bool readFieldFromFile(const std::string &fileName);
+	CellState determineCellFate(Cell &cell);
+
+	uint32_t getWidth() const {
+		return _width;
+	}
+
+	uint32_t getHeight() const {
+		return _height;
+	}
+	
+	void show() {
+		_renderer.renderFrame();
+	}
+	
+	void startGame(const uint32_t generations);
+
+	// only single thread enables rendering for now
+	void startGameSingleThread(const uint32_t generations);
+
+	void prepareFieldRow(const uint32_t row);
+	void updateFieldRow(const uint32_t row);
+private:
+
+	void generateNextGeneration(const uint32_t startRow,const uint32_t generations);
+	void generateNextGenerationSingleThread();
+
+	friend void Renderer::renderFrame();
+
+	uint32_t countSurroundingLiveCells(Cell &cell);
+
+	Cell ***_frame;
+	const uint32_t _width;
+	const uint32_t _height;
+
+	Renderer _renderer;
+
+	const uint32_t _threadCount;
+	ThreadBarrier _prepareBarrier;
+	ThreadBarrier _updateBarrier;
+};
