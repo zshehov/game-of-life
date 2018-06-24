@@ -2,5 +2,6 @@
 
 enum class Error{
     None,
-    InvalidPositionForCell
+    InvalidPositionForCell,
+    ConfigFileFail
 };

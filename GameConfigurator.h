@@ -1,5 +1,6 @@
 #pragma once
 #include "Cell.h"
+#include "Error.h"
 #include <vector>
 #include <stdint.h>
 
@@ -19,7 +20,7 @@ public:
     void setFieldWidth(const uint32_t fieldWidth) { _fieldWidth = fieldWidth; }
     void setFieldHeigth(const uint32_t fieldHeight) { _fieldWidth = fieldHeight; }
 
-	virtual void populateField(Field&) = 0;
+	virtual Error populateField(Field&) = 0;
 
 
 protected:

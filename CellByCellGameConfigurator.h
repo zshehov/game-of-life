@@ -18,7 +18,7 @@ public:
     }
 
     // from GameConfigurator
-    void populateField(Field &field) override;
+    Error populateField(Field &field) override;
 
     Error addAliveCell(Position aliveCellPosition);
     void batchAddAliveCells(const std::vector<Position> &aliveCells);

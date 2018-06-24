@@ -19,8 +19,9 @@ void CellByCellGameConfigurator::batchAddAliveCells(const std::vector<Position>&
     }
 }
 
-void CellByCellGameConfigurator::populateField(Field & field) {
+Error CellByCellGameConfigurator::populateField(Field & field) {
     for (const auto & cellPosition : _positions) {
         field.makeCellAlive(cellPosition.posX, cellPosition.posY);
     }
+    return Error::None;
 }

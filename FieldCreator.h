@@ -2,14 +2,13 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include "CellPosition.h"
+
 class FieldCreator {
 
 
 public:
-	struct Position {
-		uint32_t posX;
-		uint32_t posY;
-	};
+
 
 	void addPosition(const Position &position) {
 		positions.push_back(position);
