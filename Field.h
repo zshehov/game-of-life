@@ -2,11 +2,8 @@
 #include <string>
 #include "Cell.h"
 #include "Renderer.h"
-#include <vector>
-#include <thread>
-#include <mutex>
-#include <condition_variable>
 #include "Barrier.h"
+#include "Error.h"
 #include <stdint.h>
 
 class Field {
@@ -26,6 +23,8 @@ public:
 	uint32_t getWidth() const {
 		return _width;
 	}
+
+    Error makeCellAlive(const uint32_t posX, const uint32_t posY);
 
 	uint32_t getHeight() const {
 		return _height;

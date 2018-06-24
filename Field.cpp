@@ -24,7 +24,7 @@ Field::Field(const std::string & configurationFile,
 	for (size_t i = 0; i < height; ++i) {
 		_frame[i] = new Cell*[width];
 		for (size_t j = 0; j < width; ++j) {
-			_frame[i][j] = new Cell(CellState::dead, i, j);
+			_frame[i][j] = new Cell(CellState::dead, j, i);
 		}
 	}
 
@@ -64,7 +64,7 @@ bool Field::readFieldFromFile(const std::string &fileName) {
 		}
 		readPositions = readBytes / sizeof(Position);
 		for (size_t i = 0; i < readPositions; ++i) {
-			_frame[positionsBuffer[i].posX][positionsBuffer[i].posY]->setCurrentState(CellState::alive);
+			_frame[positionsBuffer[i].posY][positionsBuffer[i].posX]->setCurrentState(CellState::alive);
 			printf("alive\n");
 		}
 	}
@@ -104,7 +104,6 @@ void Field::generateNextGeneration(const uint32_t startRow, const uint32_t gener
 		for (size_t i = startRow; i < _height; i += _threadCount) {
 			prepareFieldRow(i);
 		}
-
 		// no thread goes past this point until all threads have reached the barrier
 		_prepareBarrier.wait(); 
 
@@ -139,9 +138,13 @@ void Field::startGame(const uint32_t generations) {
 }
 
 void Field::startGameSingleThread(const uint32_t generations) {
+#ifdef _RENDER_
+    _renderer.renderFrame();
+
+#endif // _RENDER_
+
 	for (size_t gen = 0; gen < generations; ++gen) {
 #ifdef _RENDER_
-        system("cls");
 		_renderer.showFrame();
 #endif // _RENDER_
 		generateNextGenerationSingleThread();
@@ -162,16 +165,18 @@ uint32_t Field::countSurroundingLiveCells(Cell &cell) {
 	// put the possible positions in a flat array for performance
 	uint32_t positions[6];
 
-	positions[1] = cellPosX;
-	positions[4] = cellPosY;
 	// some wrapping logic is put in
-	positions[0] = cellPosX == 0 ? _height - 1 : cellPosX - 1;
-	positions[3] = cellPosY == 0 ? _width - 1 : cellPosY - 1;
-	positions[2] = cellPosX == _height - 1 ? 0 : cellPosX + 1;
-	positions[5] = cellPosY == _width - 1 ? 0 : cellPosY + 1;
 
-	for (size_t i = 0; i < 3; i++) {
-		for (size_t j = 3; j < 6; j++) {
+    positions[0] = cellPosX == 0 ? _width - 1 : cellPosX - 1;
+	positions[1] = cellPosX;
+	positions[2] = cellPosX == _width - 1 ? 0 : cellPosX + 1;
+
+	positions[3] = cellPosY == 0 ? _height - 1 : cellPosY - 1;
+	positions[4] = cellPosY;
+	positions[5] = cellPosY == _height - 1 ? 0 : cellPosY + 1;
+
+	for (size_t i = 3; i < 6; i++) {
+		for (size_t j = 0; j < 3; j++) {
 			// we count in the target cell too if it is alive. it is removed after the counting process
 			if (_frame[positions[i]][positions[j]]->getCurrentState() == CellState::alive) {
 				++aliveSurroundingCount;
@@ -210,4 +215,13 @@ CellState Field::determineCellFate(Cell &cell) {
 	// this should N E V E R be reached
 	assert(false);
 	return CellState::dead;
+}
+
+Error Field::makeCelxlAlive(const uint32_t posX, const uint32_t posY) {
+    if (posX >= _width || posY >= _height) {
+        return Error::InvalidPositionForCell;
+    }
+
+    _frame[posY][posX]->setCurrentState(CellState::alive);
+    return Error::None;
 }
