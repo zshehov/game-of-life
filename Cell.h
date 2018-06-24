@@ -1,9 +1,6 @@
 #pragma once
 #include <stdint.h>
 
-
-class Field; //	forward declaration
-
 enum class CellState {
 	alive,
 	dead,
@@ -19,17 +16,18 @@ class Cell {
 
 public:
 
-	Cell(const CellState &state, uint32_t posX, uint32_t posY, Field *field) :
+	Cell(const CellState &state, uint32_t posX, uint32_t posY) :
 		_currentState(state),
 		_nextState(CellState::dead),
-		_position(posX, posY),
-		_environment(field) {}
+		_position(posX, posY) {}
 
 
-	CellState getCurrentState() const;
-	CellState getNextState() const;
-
-	void exist();
+    CellState getCurrentState() const {
+        return _currentState;
+    }
+    CellState getNextState() const {
+        return _nextState;
+    }
 
 	void commitFate() {
 		_currentState = _nextState;
@@ -47,11 +45,14 @@ public:
 		_currentState = state;
 	}
 
+    void setNextState(const CellState &state) {
+        _nextState = state;
+    }
+
 private:
 
 	CellState _currentState;
 	CellState _nextState;
-	Field *_environment;
 
 	struct Position {
 		Position(uint32_t posX, uint32_t posY) :

@@ -24,7 +24,7 @@ Field::Field(const std::string & configurationFile,
 	for (size_t i = 0; i < height; ++i) {
 		_frame[i] = new Cell*[width];
 		for (size_t j = 0; j < width; ++j) {
-			_frame[i][j] = new Cell(CellState::dead, i, j, this);
+			_frame[i][j] = new Cell(CellState::dead, i, j);
 		}
 	}
 
@@ -85,8 +85,9 @@ Field::~Field() {
 }
 
 void Field::prepareFieldRow(const uint32_t row) {
-	for (size_t j = 0; j < _width; ++j) {
-		_frame[row][j]->exist();
+	for (size_t i = 0; i < _width; ++i) {
+        CellState cellNextState = determineCellFate(*_frame[row][i]);
+        _frame[row][i]->setNextState(cellNextState);
 	}
 }
 
@@ -140,6 +141,7 @@ void Field::startGame(const uint32_t generations) {
 void Field::startGameSingleThread(const uint32_t generations) {
 	for (size_t gen = 0; gen < generations; ++gen) {
 #ifdef _RENDER_
+        system("cls");
 		_renderer.showFrame();
 #endif // _RENDER_
 		generateNextGenerationSingleThread();
