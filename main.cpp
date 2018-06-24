@@ -13,6 +13,7 @@ int main(int argc, char *argv[]) {
 
 
     CellByCellGameConfigurator config(128, 65);
+
     config.addAliveCell(Position( 4, 8 ));
     config.addAliveCell(Position( 5, 8 ));
     config.addAliveCell(Position( 8, 8 ));

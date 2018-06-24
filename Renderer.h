@@ -16,7 +16,6 @@ public:
 
 	~Renderer() {
 		delete[] _buffer;
-
 	}
 
 	// possibly implement buffering

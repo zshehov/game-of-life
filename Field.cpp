@@ -1,5 +1,6 @@
 #include "Field.h"
 #include "Cell.h"
+#include "WrappingUint32.h"
 #include <vector>
 #include <thread>
 #include <assert.h>
@@ -110,30 +111,26 @@ void Field::startGameSingleThread(const uint32_t generations) {
 
 uint32_t Field::countSurroundingLiveCells(Cell &cell) {
 
-	uint32_t cellPosX = cell.getPosX();
-	uint32_t cellPosY = cell.getPosY();
+    WrappingUint32 cellPosX(cell.getPosX(), _width - 1);
+    WrappingUint32 cellPosY(cell.getPosY(), _height - 1);
 	uint32_t aliveSurroundingCount = 0;
 
-	// put the possible positions in a flat array for performance
-	uint32_t positions[6];
+    // anchor to upper left corner;
+    uint32_t startingX = --cellPosX;
+    --cellPosY;
 
-	// some wrapping logic is put in
-
-    positions[0] = cellPosX == 0 ? _width - 1 : cellPosX - 1;
-	positions[1] = cellPosX;
-	positions[2] = cellPosX == _width - 1 ? 0 : cellPosX + 1;
-
-	positions[3] = cellPosY == 0 ? _height - 1 : cellPosY - 1;
-	positions[4] = cellPosY;
-	positions[5] = cellPosY == _height - 1 ? 0 : cellPosY + 1;
-
-	for (size_t i = 3; i < 6; i++) {
-		for (size_t j = 0; j < 3; j++) {
+	for (size_t i = 0; i < 3; ++i) {
+		for (size_t j = 0; j < 3; ++j) {
 			// we count in the target cell too if it is alive. it is removed after the counting process
-			if (_frame[positions[i]][positions[j]]->getCurrentState() == CellState::alive) {
+      
+			if (_frame[cellPosY][cellPosX]->getCurrentState() == CellState::alive) {
 				++aliveSurroundingCount;
 			}
+            ++cellPosX;
 		}
+            
+        cellPosX = startingX;
+        ++cellPosY;
 	}
 
 	if (CellState::alive == cell.getCurrentState()) {
