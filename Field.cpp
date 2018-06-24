@@ -3,11 +3,9 @@
 #include <vector>
 #include <thread>
 #include <assert.h>
-#include <fstream>
 #define _RENDER_
 
-Field::Field(const std::string & configurationFile,
-			 const uint32_t width,
+Field::Field(const uint32_t width,
 			 const uint32_t height, 
 			 const uint32_t threadCount) :
 	_width(width),
@@ -17,9 +15,6 @@ Field::Field(const std::string & configurationFile,
 	_updateBarrier(_threadCount),
 	_renderer(this, _width, _height) {
 
-
-	// open file
-
 	_frame = new Cell**[height];
 	for (size_t i = 0; i < height; ++i) {
 		_frame[i] = new Cell*[width];
@@ -27,51 +22,8 @@ Field::Field(const std::string & configurationFile,
 			_frame[i][j] = new Cell(CellState::dead, j, i);
 		}
 	}
-
-	if (!readFieldFromFile(configurationFile)) {
-		printf("Couldn't read from configuration file. All cells will be dead\n");
-	}
 }
 
-bool Field::readFieldFromFile(const std::string &fileName) {
-	std::ifstream fieldFileStream(fileName, std::ios::binary | std::ios::in);
-	uint32_t readBytes = 0;
-	uint32_t readPositions = 0;
-	if (!fieldFileStream.is_open()) {
-		return false;
-	}
-	
-	struct Position {
-		uint32_t posX;
-		uint32_t posY;
-	};
-
-	Position positionsBuffer[512];
-
-	while (true) {
-		/*
-			reading is not put in the condition because read operation returns
-			false when it reaches EOF. This means that it would skip the content
-			of the buffer that was filled when EOF was reached. Terminating logic
-			is moved in the loop and checks if we have read 0 bytes.
-		*/
-		fieldFileStream.read((char*)&positionsBuffer, sizeof(positionsBuffer));
-
-		// gcount returns long long, we don't need that in this case
-		readBytes = (uint32_t) fieldFileStream.gcount();
-		if (readBytes == 0) {
-			break;
-		}
-		readPositions = readBytes / sizeof(Position);
-		for (size_t i = 0; i < readPositions; ++i) {
-			_frame[positionsBuffer[i].posY][positionsBuffer[i].posX]->setCurrentState(CellState::alive);
-			printf("alive\n");
-		}
-	}
-
-	fieldFileStream.close();
-	return true;
-}
 
 Field::~Field() {
 	for (size_t i = 0; i < _height; ++i) {
@@ -217,7 +169,7 @@ CellState Field::determineCellFate(Cell &cell) {
 	return CellState::dead;
 }
 
-Error Field::makeCelxlAlive(const uint32_t posX, const uint32_t posY) {
+Error Field::makeCellAlive(const uint32_t posX, const uint32_t posY) {
     if (posX >= _width || posY >= _height) {
         return Error::InvalidPositionForCell;
     }

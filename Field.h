@@ -10,25 +10,25 @@ class Field {
 
 public:
 
-	Field(const std::string & configurationFile,
-		  const uint32_t width,
+	Field(const uint32_t width,
 		  const uint32_t height,
 		  const uint32_t threadCount);
 
 	~Field();
 
-	bool readFieldFromFile(const std::string &fileName);
 	CellState determineCellFate(Cell &cell);
 
 	uint32_t getWidth() const {
 		return _width;
 	}
 
+    uint32_t getHeight() const {
+        return _height;
+    }
+
     Error makeCellAlive(const uint32_t posX, const uint32_t posY);
 
-	uint32_t getHeight() const {
-		return _height;
-	}
+	
 	
 	void show() {
 		_renderer.renderFrame();
