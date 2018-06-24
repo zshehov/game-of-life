@@ -3,16 +3,16 @@
 #include "Error.h"
 #include <vector>
 #include <stdint.h>
-
 class Field; // forward declaration
 
 class GameConfigurator{
 
 public:
-	GameConfigurator(const uint32_t fieldWidth = 0,
-					 const uint32_t fieldHeight = 0) :
+	GameConfigurator(const uint32_t fieldWidth = 2,
+					 const uint32_t fieldHeight = 2) :
 		_fieldWidth(fieldWidth),
-		_fieldHeight(fieldHeight) {}
+		_fieldHeight(fieldHeight)  {    
+    }
 
     uint32_t getFieldWidth() const { return _fieldWidth; }
     uint32_t getFieldHeight() const { return _fieldHeight; }

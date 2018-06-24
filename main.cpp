@@ -5,6 +5,7 @@
 #include "FieldCreator.h"
 #include "CellByCellGameConfigurator.h"
 #include "FromFileGameConfigurator.h"
+#include "FieldBuilder.h"
 
 #define _THREADS_ 4
 
@@ -20,24 +21,19 @@ int main(int argc, char *argv[]) {
     config.addAliveCell(Position( 5, 6 ));
     config.addAliveCell(Position( 7, 7 ));
 
-    FromFileGameConfigurator config2("field.map", 128, 65);
 
+    FieldBuilder fieldBuilder(config);
 
-
-
-    Field field(config2.getFieldWidth() , config2.getFieldHeight(), _THREADS_);
-
-    if (config2.populateField(field) == Error::ConfigFileFail) {
-
-        printf("failed\n");
+    Field *field = fieldBuilder.getField();
+    if (field == nullptr) {
+        printf("Couldn't create field\n");
         return 1;
-
     }
 
 
 	clock_t start = clock();
 //	field.startGame(100);
-	field.startGameSingleThread(1000);
+	field->startGameSingleThread(1000);
 	printf("time passed: %f\n", (float)(clock() - start) / CLOCKS_PER_SEC);
 //	field.show();
 }

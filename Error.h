@@ -3,5 +3,6 @@
 enum class Error{
     None,
     InvalidPositionForCell,
-    ConfigFileFail
+    ConfigFileFail,
+    FieldNotCreated
 };
