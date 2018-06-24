@@ -11,7 +11,7 @@ public:
 		_fieldWidth(fieldWidth),
 		_fieldHeight(fieldHeight),
 		// +1 is for the \n symbols
-		_buffer(new char[(_fieldWidth + 1)* _fieldHeight]) {
+		_buffer(new char[(_fieldWidth + 1)* _fieldHeight + 1]) {
 	}
 
 	~Renderer() {
