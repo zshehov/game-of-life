@@ -22,10 +22,7 @@ public:
 
 	virtual Error populateField(Field&) = 0;
 
-
 protected:
 	uint32_t _fieldWidth;
 	uint32_t _fieldHeight;
-
-
 };

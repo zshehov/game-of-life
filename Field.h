@@ -26,6 +26,11 @@ public:
         return _height;
     }
 
+    // only for tests
+    CellState getCellState(const uint32_t posX, const uint32_t posY) const {
+        return _frame[posY][posX]->getCurrentState();
+    }
+
     Error makeCellAlive(const uint32_t posX, const uint32_t posY);
 
 	
@@ -41,6 +46,7 @@ public:
 
 	void prepareFieldRow(const uint32_t row);
 	void updateFieldRow(const uint32_t row);
+
 private:
 
 	void generateNextGeneration(const uint32_t startRow,const uint32_t generations);

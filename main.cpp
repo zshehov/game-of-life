@@ -24,6 +24,7 @@ int main(int argc, char *argv[]) {
 
 
 
+
     Field field(config2.getFieldWidth() , config2.getFieldHeight(), _THREADS_);
 
     if (config2.populateField(field) == Error::ConfigFileFail) {
