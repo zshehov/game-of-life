@@ -19,7 +19,7 @@ public:
     }
 
     uint32_t &operator++() {
-        if (_currentValue == _upperBoundary) {
+        if (_currentValue >= _upperBoundary) {
             _currentValue = 0;
         } else {
             ++_currentValue;

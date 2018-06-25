@@ -1,4 +1,3 @@
-#include <time.h>
 #include <string>
 #include <stdio.h>
 #include "Field.h"
@@ -31,11 +30,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-
-	clock_t start = clock();
-//	field.startGame(100);
 	field->startGame(1000);
-	printf("time passed: %f\n", (float)(clock() - start) / CLOCKS_PER_SEC);
 //	field.show();
 }
 

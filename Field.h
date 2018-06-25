@@ -12,7 +12,7 @@ public:
 
     ~Field();
 
-	CellState determineCellFate(Cell &cell);
+	CellState determineCellFate(const Cell &cell);
 
 	uint32_t getWidth() const {
 		return _width;
@@ -25,6 +25,10 @@ public:
     // only for tests
     CellState getCellState(const uint32_t posX, const uint32_t posY) const {
         return _frame[posY][posX]->getCurrentState();
+    }
+
+    const Cell& getCellAt(const uint32_t posX, const uint32_t posY) const {
+        return *_frame[posY][posX];
     }
 
     Error makeCellAlive(const uint32_t posX, const uint32_t posY);
@@ -46,7 +50,7 @@ private:
 
 	friend void Renderer::renderFrame();
 
-	uint32_t countSurroundingLiveCells(Cell &cell) const;
+	uint32_t countSurroundingLiveCells(const Cell &cell) const;
 
 	Cell ***_frame;
 	const uint32_t _width;

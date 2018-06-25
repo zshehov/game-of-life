@@ -76,7 +76,7 @@ void Field::startGame(const uint32_t generations) {
 	}
 }
 
-uint32_t Field::countSurroundingLiveCells(Cell &cell) const{
+uint32_t Field::countSurroundingLiveCells(const Cell &cell) const{
 
     WrappingUint32 cellPosX(cell.getPosX(), _width - 1);
     WrappingUint32 cellPosY(cell.getPosY(), _height - 1);
@@ -107,7 +107,7 @@ uint32_t Field::countSurroundingLiveCells(Cell &cell) const{
 	return aliveSurroundingCount;
 }
 
-CellState Field::determineCellFate(Cell &cell) {
+CellState Field::determineCellFate(const Cell &cell) {
 
 	uint32_t aliveSurrounding = countSurroundingLiveCells(cell);
 
