@@ -1,8 +1,6 @@
 #pragma once
-#include <string>
 #include "Cell.h"
 #include "Renderer.h"
-#include "Barrier.h"
 #include "Error.h"
 #include <stdint.h>
 
@@ -14,7 +12,6 @@
 class Field {
 
 public:
-
     ~Field();
 
     CellState determineCellFate(const Cell &cell);
@@ -46,6 +43,7 @@ public:
 
     // since we can't create Field with its constructor
     friend class FieldBuilder;
+
 private:
     Field(const uint32_t width,
           const uint32_t height,

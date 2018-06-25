@@ -1,12 +1,7 @@
 #include "Renderer.h"
 #include "Field.h"
 
-
 void Renderer::renderFrame() {
-    // this function can be mixed with actually updating the next frame since now there are 3 passes:
-    // 1) determine next state
-    // 2) update current state
-    // 3) render                       -> it could be 2) render and update current state
 
     for (size_t i = 0; i < _fieldHeight; i++) {
         for (size_t j = 0; j < _fieldWidth; j++) {

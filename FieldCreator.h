@@ -8,8 +8,6 @@ class FieldCreator {
 
 
 public:
-
-
     void addPosition(const Position &position) {
         positions.push_back(position);
     }
