@@ -14,7 +14,7 @@ namespace UnitTests {
 
         TEST_METHOD(Should_BuildField_When_GivenConfigWithWidthAndHeightGreaterThan1) {
             ::CellByCellGameConfigurator config(2, 2);
-            ::FieldBuilder fieldBuilder(config);
+            ::FieldBuilder fieldBuilder(config, false);
             ::Field *field = fieldBuilder.getField();
 
             Assert::IsTrue(field != nullptr);
@@ -22,7 +22,7 @@ namespace UnitTests {
 
         TEST_METHOD(Should_FailOnBuildField_When_GivenConfigWitHeightLessThan2) {
             ::CellByCellGameConfigurator config(2, 1);
-            ::FieldBuilder fieldBuilder(config);
+            ::FieldBuilder fieldBuilder(config, false);
             ::Field *field = fieldBuilder.getField();
 
             Assert::IsTrue(field == nullptr);
@@ -30,7 +30,7 @@ namespace UnitTests {
 
         TEST_METHOD(Should_FailOnBuildField_When_GivenConfigWithWidthLessThan2) {
             ::CellByCellGameConfigurator config(1, 2);
-            ::FieldBuilder fieldBuilder(config);
+            ::FieldBuilder fieldBuilder(config, false);
             ::Field *field = fieldBuilder.getField();
 
             Assert::IsTrue(field == nullptr);
@@ -56,7 +56,7 @@ namespace UnitTests {
             ::CellByCellGameConfigurator config(5, 5);
             config.addAliveCell(Position(2, 2));
 
-            ::FieldBuilder fieldBuilder(config);
+            ::FieldBuilder fieldBuilder(config, false);
             ::Field *field = fieldBuilder.getField();
 
             config.populateField(*field);
@@ -71,7 +71,7 @@ namespace UnitTests {
             config.addAliveCell(Position(1, 2));
             config.addAliveCell(Position(2, 3));
 
-            ::FieldBuilder fieldBuilder(config);
+            ::FieldBuilder fieldBuilder(config, false);
             ::Field *field = fieldBuilder.getField();
 
             CellState cellState = field->determineCellFate(field->getCellAt(2, 2));
@@ -85,7 +85,7 @@ namespace UnitTests {
             config.addAliveCell(Position(3, 2));
             config.addAliveCell(Position(1, 2));
 
-            ::FieldBuilder fieldBuilder(config);
+            ::FieldBuilder fieldBuilder(config, false);
             ::Field *field = fieldBuilder.getField();
 
             CellState cellState = field->determineCellFate(field->getCellAt(2, 2));
@@ -100,7 +100,7 @@ namespace UnitTests {
             config.addAliveCell(Position(2, 2));
             config.addAliveCell(Position(3, 2));
 
-            ::FieldBuilder fieldBuilder(config);
+            ::FieldBuilder fieldBuilder(config, false);
             ::Field *field = fieldBuilder.getField();
 
             CellState cellState = field->determineCellFate(field->getCellAt(2, 2));
@@ -117,7 +117,7 @@ namespace UnitTests {
             config.addAliveCell(Position(2, 3));
             config.addAliveCell(Position(1, 3));
 
-            ::FieldBuilder fieldBuilder(config);
+            ::FieldBuilder fieldBuilder(config, false);
             ::Field *field = fieldBuilder.getField();
 
             CellState cellState = field->determineCellFate(field->getCellAt(2, 2));
@@ -131,7 +131,7 @@ namespace UnitTests {
             config.addAliveCell(Position(3, 2));
             config.addAliveCell(Position(1, 2));
 
-            ::FieldBuilder fieldBuilder(config);
+            ::FieldBuilder fieldBuilder(config, false);
             ::Field *field = fieldBuilder.getField();
 
             CellState cellState = field->determineCellFate(field->getCellAt(2, 3));
@@ -146,7 +146,7 @@ namespace UnitTests {
             config.addAliveCell(Position(1, 0));
 
 
-            ::FieldBuilder fieldBuilder(config);
+            ::FieldBuilder fieldBuilder(config, false);
             ::Field *field = fieldBuilder.getField();
 
             CellState cellState = field->determineCellFate(field->getCellAt(2, 4));
@@ -162,7 +162,7 @@ namespace UnitTests {
             config.addAliveCell(Position(1, 4));
 
 
-            ::FieldBuilder fieldBuilder(config);
+            ::FieldBuilder fieldBuilder(config, false);
             ::Field *field = fieldBuilder.getField();
 
             CellState cellState = field->determineCellFate(field->getCellAt(2, 0));
@@ -177,7 +177,7 @@ namespace UnitTests {
             config.addAliveCell(Position(0, 3));
 
 
-            ::FieldBuilder fieldBuilder(config);
+            ::FieldBuilder fieldBuilder(config, false);
             ::Field *field = fieldBuilder.getField();
 
             CellState cellState = field->determineCellFate(field->getCellAt(4, 2));
@@ -193,7 +193,7 @@ namespace UnitTests {
             config.addAliveCell(Position(4, 3));
 
 
-            ::FieldBuilder fieldBuilder(config);
+            ::FieldBuilder fieldBuilder(config, false);
             ::Field *field = fieldBuilder.getField();
 
             CellState cellState = field->determineCellFate(field->getCellAt(0, 2));
@@ -208,7 +208,7 @@ namespace UnitTests {
             config.addAliveCell(Position(4, 1));
 
 
-            ::FieldBuilder fieldBuilder(config);
+            ::FieldBuilder fieldBuilder(config, false);
             ::Field *field = fieldBuilder.getField();
 
             CellState cellState = field->determineCellFate(field->getCellAt(0, 0));

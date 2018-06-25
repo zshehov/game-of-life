@@ -17,11 +17,11 @@ public:
 
     ~Field();
 
-	CellState determineCellFate(const Cell &cell);
+    CellState determineCellFate(const Cell &cell);
 
-	uint32_t getWidth() const {
-		return _width;
-	}
+    uint32_t getWidth() const {
+        return _width;
+    }
 
     uint32_t getHeight() const {
         return _height;
@@ -39,10 +39,10 @@ public:
     Error makeCellAlive(const uint32_t posX, const uint32_t posY);
 
 
-	void startGame(const uint32_t generations);
+    void startGame(const uint32_t generations);
 
-	void prepareFieldRow(const uint32_t row);
-	void updateFieldRow(const uint32_t row);
+    void prepareFieldRow(const uint32_t row);
+    void updateFieldRow(const uint32_t row);
 
     // since we can't create Field with its constructor
     friend class FieldBuilder;
@@ -51,16 +51,16 @@ private:
           const uint32_t height,
           const bool shouldRenderEveryGeneration);
 
-	void generateNextGeneration();
+    void generateNextGeneration();
 
-	friend void Renderer::renderFrame();
+    friend void Renderer::renderFrame();
 
-	uint32_t countSurroundingLiveCells(const Cell &cell) const;
+    uint32_t countSurroundingLiveCells(const Cell &cell) const;
 
-	Cell ***_frame;
-	const uint32_t _width;
-	const uint32_t _height;
+    Cell ***_frame;
+    const uint32_t _width;
+    const uint32_t _height;
     const bool _shouldRenderEveryGeneration;
 
-	Renderer _renderer;
+    Renderer _renderer;
 };

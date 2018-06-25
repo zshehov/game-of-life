@@ -6,8 +6,6 @@
 #include "FromFileGameConfigurator.h"
 #include "FieldBuilder.h"
 
-#define _THREADS_ 4
-
 int main(int argc, char *argv[]) {
 
 
@@ -21,7 +19,6 @@ int main(int argc, char *argv[]) {
     config.addAliveCell(Position( 5, 6 ));
     config.addAliveCell(Position( 7, 7 ));
 
-
     FieldBuilder fieldBuilder(config, true);
 
     Field *field = fieldBuilder.getField();
@@ -30,6 +27,6 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-	field->startGame(1000);
+    field->startGame(1000);
 }
 
