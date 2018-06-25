@@ -6,14 +6,11 @@
 #include "Error.h"
 #include <stdint.h>
 
-
 class Field {
 
 public:
 
-
-
-	~Field();
+    ~Field();
 
 	CellState determineCellFate(Cell &cell);
 
@@ -32,16 +29,9 @@ public:
 
     Error makeCellAlive(const uint32_t posX, const uint32_t posY);
 
-	
-	
-	void show() {
-		_renderer.renderFrame();
-	}
-	
-	void startGame(const uint32_t generations);
 
 	// only single thread enables rendering for now
-	void startGameSingleThread(const uint32_t generations);
+	void startGame(const uint32_t generations);
 
 	void prepareFieldRow(const uint32_t row);
 	void updateFieldRow(const uint32_t row);
@@ -50,23 +40,17 @@ public:
     friend class FieldBuilder;
 private:
     Field(const uint32_t width,
-          const uint32_t height,
-          const uint32_t threadCount);
+          const uint32_t height);
 
-	void generateNextGeneration(const uint32_t startRow,const uint32_t generations);
-	void generateNextGenerationSingleThread();
+	void generateNextGeneration();
 
 	friend void Renderer::renderFrame();
 
-	uint32_t countSurroundingLiveCells(Cell &cell);
+	uint32_t countSurroundingLiveCells(Cell &cell) const;
 
 	Cell ***_frame;
 	const uint32_t _width;
 	const uint32_t _height;
 
 	Renderer _renderer;
-
-	const uint32_t _threadCount;
-	ThreadBarrier _prepareBarrier;
-	ThreadBarrier _updateBarrier;
 };

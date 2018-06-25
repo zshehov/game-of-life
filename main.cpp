@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
 
 	clock_t start = clock();
 //	field.startGame(100);
-	field->startGameSingleThread(1000);
+	field->startGame(1000);
 	printf("time passed: %f\n", (float)(clock() - start) / CLOCKS_PER_SEC);
 //	field.show();
 }

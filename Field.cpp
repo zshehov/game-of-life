@@ -7,13 +7,9 @@
 #define _RENDER_
 
 Field::Field(const uint32_t width,
-			 const uint32_t height, 
-			 const uint32_t threadCount) :
+			 const uint32_t height) :
 	_width(width),
 	_height(height),
-	_threadCount(threadCount),
-	_prepareBarrier(_threadCount),
-	_updateBarrier(_threadCount),
 	_renderer(this, _width, _height) {
 
 	_frame = new Cell**[height];
@@ -50,26 +46,8 @@ void Field::updateFieldRow(const uint32_t row) {
 	}
 }
 
-void Field::generateNextGeneration(const uint32_t startRow, const uint32_t generations) {	
-	// going with jumps of _threadCount, so that workload is more spread out between the threads
-	for (size_t gen = 0; gen < generations; ++gen) {
 
-		for (size_t i = startRow; i < _height; i += _threadCount) {
-			prepareFieldRow(i);
-		}
-		// no thread goes past this point until all threads have reached the barrier
-		_prepareBarrier.wait(); 
-
-		for (size_t i = startRow; i < _height; i += _threadCount) {
-			updateFieldRow(i);
-		}
-
-		// no thread goes past this point until all threads have reached the barrier
-		_updateBarrier.wait();
-	}
-}
-
-void Field::generateNextGenerationSingleThread() {
+void Field::generateNextGeneration() {
 	for (size_t row = 0; row < _height; ++row) {
 		prepareFieldRow(row);
 	}
@@ -80,17 +58,6 @@ void Field::generateNextGenerationSingleThread() {
 }
 
 void Field::startGame(const uint32_t generations) {
-	std::vector<std::thread> threads;
-	for (size_t i = 0; i < _threadCount; ++i) {
-		threads.push_back(std::thread([this, i, generations]() { this->generateNextGeneration(i, generations); }));
-	}
-
-	for (size_t i = 0; i < _threadCount; ++i) {
-		threads[i].join();
-	}
-}
-
-void Field::startGameSingleThread(const uint32_t generations) {
 #ifdef _RENDER_
     _renderer.renderFrame();
 
@@ -100,7 +67,7 @@ void Field::startGameSingleThread(const uint32_t generations) {
 #ifdef _RENDER_
 		_renderer.showFrame();
 #endif // _RENDER_
-		generateNextGenerationSingleThread();
+		generateNextGeneration();
 
 
 #ifdef _RENDER_
@@ -109,7 +76,7 @@ void Field::startGameSingleThread(const uint32_t generations) {
 	}
 }
 
-uint32_t Field::countSurroundingLiveCells(Cell &cell) {
+uint32_t Field::countSurroundingLiveCells(Cell &cell) const{
 
     WrappingUint32 cellPosX(cell.getPosX(), _width - 1);
     WrappingUint32 cellPosY(cell.getPosY(), _height - 1);

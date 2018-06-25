@@ -9,7 +9,7 @@ public:
     FieldBuilder(GameConfigurator &gameConfigurator) : _field(nullptr) {
         if (gameConfigurator.getFieldHeight() > 1 &&
             gameConfigurator.getFieldWidth() > 1) {
-            _field = new Field(gameConfigurator.getFieldWidth(), gameConfigurator.getFieldWidth(), 1);
+            _field = new Field(gameConfigurator.getFieldWidth(), gameConfigurator.getFieldWidth());
             gameConfigurator.populateField(*_field);
         }
     }
