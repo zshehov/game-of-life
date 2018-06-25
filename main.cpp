@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     config.addAliveCell(Position( 7, 7 ));
 
 
-    FieldBuilder fieldBuilder(config);
+    FieldBuilder fieldBuilder(config, true);
 
     Field *field = fieldBuilder.getField();
     if (field == nullptr) {
@@ -30,9 +30,6 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-
 	field->startGame(1000);
-    printf("%d, %d\n", field->getHeight(), field->getWidth());
-//	field.show();
 }
 

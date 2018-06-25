@@ -48,7 +48,8 @@ public:
     friend class FieldBuilder;
 private:
     Field(const uint32_t width,
-          const uint32_t height);
+          const uint32_t height,
+          const bool shouldRenderEveryGeneration);
 
 	void generateNextGeneration();
 
@@ -59,6 +60,7 @@ private:
 	Cell ***_frame;
 	const uint32_t _width;
 	const uint32_t _height;
+    const bool _shouldRenderEveryGeneration;
 
 	Renderer _renderer;
 };

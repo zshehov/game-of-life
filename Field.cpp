@@ -11,9 +11,11 @@
     initializes it with dead cells
 */
 Field::Field(const uint32_t width,
-			 const uint32_t height) :
+			 const uint32_t height,
+             const bool shouldRenderEveryGeneration) :
 	_width(width),
 	_height(height),
+    _shouldRenderEveryGeneration(shouldRenderEveryGeneration),
 	_renderer(this, _width, _height) {
 
 	_frame = new Cell**[height];
@@ -71,14 +73,15 @@ void Field::generateNextGeneration() {
 void Field::startGame(const uint32_t generations) {
 
 	for (size_t gen = 0; gen < generations; ++gen) {
-#ifdef _RENDER_
-		_renderer.renderFrame();
-		_renderer.showFrame();
-#endif // _RENDER_
+        if (_shouldRenderEveryGeneration) {
+		    _renderer.renderFrame();
+		    _renderer.showFrame();
+        }
 		generateNextGeneration();
-
-
 	}
+
+    _renderer.renderFrame();
+    _renderer.showFrame();
 }
 
 /*

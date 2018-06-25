@@ -10,10 +10,14 @@
 class FieldBuilder {
 
 public:
-    FieldBuilder(GameConfigurator &gameConfigurator) : _field(nullptr) {
+    FieldBuilder(GameConfigurator &gameConfigurator,
+                 bool shouldRenderEveryGeneration) : 
+        _field(nullptr) {
         if (gameConfigurator.getFieldHeight() > 1 &&
             gameConfigurator.getFieldWidth() > 1) {
-            _field = new Field(gameConfigurator.getFieldWidth(), gameConfigurator.getFieldHeight());
+            _field = new Field(gameConfigurator.getFieldWidth(),
+                               gameConfigurator.getFieldHeight(),
+                               shouldRenderEveryGeneration);
             gameConfigurator.populateField(*_field);
         }
     }
