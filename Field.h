@@ -6,6 +6,11 @@
 #include "Error.h"
 #include <stdint.h>
 
+/*
+    Field is responsible for storing the 2D matrix with cells and determining their
+    future state upon having a new generation
+
+*/
 class Field {
 
 public:
@@ -34,7 +39,6 @@ public:
     Error makeCellAlive(const uint32_t posX, const uint32_t posY);
 
 
-	// only single thread enables rendering for now
 	void startGame(const uint32_t generations);
 
 	void prepareFieldRow(const uint32_t row);

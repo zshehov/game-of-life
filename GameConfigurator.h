@@ -5,7 +5,13 @@
 #include <stdint.h>
 class Field; // forward declaration
 
-class GameConfigurator{
+
+/*
+    Abstract class used for extracting away the logic for
+    configuring the field
+*/
+
+class GameConfigurator {
 
 public:
 	GameConfigurator(const uint32_t fieldWidth = 2,

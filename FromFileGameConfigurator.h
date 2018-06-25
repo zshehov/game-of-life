@@ -4,10 +4,10 @@
 #include "Error.h"
 #include "CellPosition.h"
 #include <string>
-#include <fstream>
-#include <iostream>
 
-
+/*
+    Responsible for creating a configuration for the field from a file  
+*/
 
 class FromFileGameConfigurator : public GameConfigurator {
 public:
@@ -20,7 +20,7 @@ public:
 
     }
 
-
+    // from GameConfigurator abstract class
     Error populateField(Field& field) override;
 
 

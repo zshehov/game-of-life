@@ -6,6 +6,10 @@
 #include <assert.h>
 #define _RENDER_
 
+/*
+    Constructs the field, by allocating the needed memory for the _frame and
+    initializes it with dead cells
+*/
 Field::Field(const uint32_t width,
 			 const uint32_t height) :
 	_width(width),
@@ -33,6 +37,9 @@ Field::~Field() {
 	delete[] _frame;
 }
 
+/*
+    Sets the next state for every cell in the given row
+*/
 void Field::prepareFieldRow(const uint32_t row) {
 	for (size_t i = 0; i < _width; ++i) {
         CellState cellNextState = determineCellFate(*_frame[row][i]);
@@ -40,12 +47,16 @@ void Field::prepareFieldRow(const uint32_t row) {
 	}
 }
 
+
 void Field::updateFieldRow(const uint32_t row) {
 	for (size_t j = 0; j < _width; ++j) {
 		_frame[row][j]->commitFate();
 	}
 }
 
+/*
+    Implements the cycle of life
+*/
 
 void Field::generateNextGeneration() {
 	for (size_t row = 0; row < _height; ++row) {
@@ -58,24 +69,22 @@ void Field::generateNextGeneration() {
 }
 
 void Field::startGame(const uint32_t generations) {
-#ifdef _RENDER_
-    _renderer.renderFrame();
-
-#endif // _RENDER_
 
 	for (size_t gen = 0; gen < generations; ++gen) {
 #ifdef _RENDER_
+		_renderer.renderFrame();
 		_renderer.showFrame();
 #endif // _RENDER_
 		generateNextGeneration();
 
 
-#ifdef _RENDER_
-		_renderer.renderFrame();
-#endif // _RENDER_
 	}
 }
 
+/*
+    Calculates how many alive cells are around the given cell.
+    Counting vertically, horizontally and diagonally with wrapping logic.
+*/
 uint32_t Field::countSurroundingLiveCells(const Cell &cell) const{
 
     WrappingUint32 cellPosX(cell.getPosX(), _width - 1);
@@ -107,6 +116,10 @@ uint32_t Field::countSurroundingLiveCells(const Cell &cell) const{
 	return aliveSurroundingCount;
 }
 
+/*
+    Determines what state the cell will be in the next generation
+    by Conway's rules
+*/
 CellState Field::determineCellFate(const Cell &cell) {
 
 	uint32_t aliveSurrounding = countSurroundingLiveCells(cell);
@@ -132,6 +145,7 @@ CellState Field::determineCellFate(const Cell &cell) {
 	assert(false);
 	return CellState::dead;
 }
+
 
 Error Field::makeCellAlive(const uint32_t posX, const uint32_t posY) {
     if (posX >= _width || posY >= _height) {

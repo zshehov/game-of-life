@@ -11,7 +11,7 @@
 int main(int argc, char *argv[]) {
 
 
-    CellByCellGameConfigurator config(128, 65);
+    CellByCellGameConfigurator config(128, 64);
 
     config.addAliveCell(Position( 4, 8 ));
     config.addAliveCell(Position( 5, 8 ));
@@ -30,7 +30,9 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+
 	field->startGame(1000);
+    printf("%d, %d\n", field->getHeight(), field->getWidth());
 //	field.show();
 }
 

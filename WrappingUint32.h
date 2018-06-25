@@ -1,6 +1,10 @@
 #pragma once
 #include <stdint.h>
 
+
+/*
+    Utility class that abstracts out the wrapping logic
+*/
 class WrappingUint32 {
 public:
     WrappingUint32(const uint32_t currentValue,

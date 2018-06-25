@@ -1,6 +1,11 @@
+#include <iostream>
 #include "FromFileGameConfigurator.h"
 #include "RAIIFileOpen.h"
 
+
+/*
+    Populates the field using the file given at the construction of the configurator
+*/
 Error FromFileGameConfigurator::populateField(Field & field) {
 
     RAIIFileOpen fileStream(_configFileName);

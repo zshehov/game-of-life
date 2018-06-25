@@ -3,6 +3,11 @@
 #include <stdio.h>
 class Field; // forward declaration
 
+
+/*
+    Renderer is responsible for rendering the field in a
+    simple printf fashion
+*/
 class Renderer {
 public:
 

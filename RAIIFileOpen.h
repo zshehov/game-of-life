@@ -2,6 +2,10 @@
 #include <string>
 #include <fstream>
 
+/*
+    Utility class that wraps the opening of a stream so that
+    it is certain it will be closed in all cases
+*/
 class RAIIFileOpen {
 
 public:
