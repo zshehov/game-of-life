@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-
+#include "CellPosition.h"
 enum class CellState {
 	alive,
 	dead,
@@ -34,11 +34,11 @@ public:
 	}
 
 	uint32_t getPosX() const {
-		return _position._x;
+		return _position.posX;
 	}
 
 	uint32_t getPosY() const {
-		return _position._y;
+		return _position.posY;
 	}
 
 	void setCurrentState(const CellState &state) {
@@ -54,14 +54,7 @@ private:
 	CellState _currentState;
 	CellState _nextState;
 
-	struct Position {
-		Position(uint32_t posX, uint32_t posY) :
-			_x(posX),
-			_y(posY) {}
-
-		const uint32_t _x;
-		const uint32_t _y;
-	} _position;
+	Position _position;
 
 
 };
